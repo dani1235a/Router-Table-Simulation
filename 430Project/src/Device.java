@@ -1,6 +1,6 @@
 /**
  * @author  Bryce Anderson
- * @version 1.0
+ * @version 1.1
  * This is the Class that keeps track of each device attached to a router.
  */
 public class Device{
