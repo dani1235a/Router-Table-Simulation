@@ -3,15 +3,39 @@
  */
 public class Router {
 
-    public Router(String routerName) {
+    /**
+     * The name associated with this router.
+     */
+    private String routerName;
 
+    /**
+     *
+     * @param routerName
+     */
+    public Router(String routerName) {
+        this.routerName = routerName;
     }
 
     public class RouterTable {
+
+        private String [][] routerTable;
+
         /**
          *
          */
-        public RouterTable() {
+        private RouterTable() {
+
+        }
+
+        public String printRouterTable() {
+            return "print fancy table here";
+        }
+
+        public void addToTable() {
+
+        }
+
+        public void removeFromTable(String ip) {
 
         }
 
