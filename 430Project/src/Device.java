@@ -3,7 +3,7 @@
  * @version 1.0
  * This is the Class that keeps track of each device attached to a router.
  */
-public class Device{
+public class Device {
 
     /**
     * The name of the device
@@ -13,6 +13,14 @@ public class Device{
      * The IP Address of the device.
      */
     String myIPAddress;
+
+    /**
+     * Constructor for a device.
+     * @param DeviceName name of device
+     */
+    public Device(String DeviceName) {
+        myName = DeviceName;
+    }
 
     /**
      * Gets the name of this device.
@@ -32,7 +40,7 @@ public class Device{
 
     /**
      * Sets the name of this device.
-     * @param theName
+     * @param theName the name of the device.
      */
     public void setMyName(String theName) {
         if (theName != null) {
@@ -42,7 +50,7 @@ public class Device{
 
     /**
      * Sets the IP address of this device.
-     * @param theIP
+     * @param theIP the IP address of the device.
      */
     public void setMyIPAddress(String theIP) {
         if(theIP != null) {
