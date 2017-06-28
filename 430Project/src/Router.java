@@ -57,11 +57,16 @@ public class Router extends Device {
         if (device instanceof Router) {
             // assign a router IP (add device to this router)
             // Take the router table and add +1 to all of its hops and add to our own router table
-
-
+            table.addRouter(device.getName(), port);
+        } else {
+            //assign device IP
+            table.addDevice(device);
         }
     }
 
+    private RouterTable getTable() {
+        return table;
+    }
 
     /**
      * Inner class with RouterTable
