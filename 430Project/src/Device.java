@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 /**
  * @author  Bryce Anderson
  * @version 1.1
+ * @since 06/29/17
  * This is the Class that keeps track of each device attached to a router.
  */
 public class Device {
@@ -16,9 +17,6 @@ public class Device {
      */
     String myIPAddress;
 
-    /**
-     * Time stamp for the devices creation
-     */
     LocalDateTime myStamp;
 
 
@@ -67,5 +65,13 @@ public class Device {
         if(theIP != null) {
             myIPAddress = theIP;
         }
+    }
+
+    /**
+     * Gets the time stamp of the device
+     * @return myStamp
+     */
+    public LocalDateTime getTimeStamp() {
+        return myStamp;
     }
 }
