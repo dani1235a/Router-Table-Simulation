@@ -17,9 +17,9 @@ public class Router extends Device {
      * @param routerName - name associated with router.
      */
     public Router(String routerName, String IP) {
-        super(routerName);
+        super(routerName, IP);
         isOnline = true;
-        super.setMyIPAddress(IP);
+        // super.setMyIPAddress(IP); //This is set in the constructor
 
     }
 
