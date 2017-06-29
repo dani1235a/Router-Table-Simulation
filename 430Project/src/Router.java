@@ -17,10 +17,12 @@ public class Router extends Device {
      * Constructor that initiallizes the router.
      * @param routerName - name associated with router.
      */
-    public Router(String routerName) {
+    public Router(String routerName, String IP) {
         super(routerName);
-        super.setMyIPAddress("10.10.10.1");
+        // the IP address will be set from main.
+//        super.setMyIPAddress("10.10.10.1");
         isOnline = true;
+        super.setMyIPAddress(IP);
     }
 
     /**
@@ -55,17 +57,20 @@ public class Router extends Device {
      */
     public void addDevice(Device device, String port){
         if (device instanceof Router) {
-            // assign a router IP (add device to this router)
             // Take the router table and add +1 to all of its hops and add to our own router table
-            table.addRouter(device.getName(), port);
+            table.addRouter(device.getName(), device.getIPAddress(), port);
         } else {
             //assign device IP
             table.addDevice(device);
         }
     }
 
-    private RouterTable getTable() {
-        return table;
+    /**
+     * returns the router table.
+     * @return router table. (in 2d array form)
+     */
+    private String[][] getTable() {
+        return table.getRouterTable().clone();
     }
 
     /**
@@ -89,23 +94,17 @@ public class Router extends Device {
          * Method to print out the table in fancy manner.
          * @return table with all the data in it
          */
-        private String printRouterTable() {
-            return "print fancy table here";
+        private String[][] getRouterTable() {
+            return routerTable;
         }
 
-        /**
-         * Method to add a device to table.
-         */
-        private void addToTable() {
-
-        }
 
         /**
          * Method to remove specified device from the table
          * @param ip ip address associted with the specific device
          */
         private void removeFromTable(String ip) {
-
+            //TODO: remove this IP from the Table.
         }
 
         /**
@@ -114,7 +113,26 @@ public class Router extends Device {
          * @return
          */
         private boolean isTaken(String ip) {
+         //TODO: return true if this IP is taken
             return false;
+        }
+
+        /**
+         * Adds another router to the router table
+         * @param name
+         * @param port
+         * @param IP the IP
+         */
+        public void addRouter(String name, String IP, String port) {
+            //TODO: take the table from other router and add its devices to my own table.
+        }
+
+        /**
+         * Adds another device to router table.
+         * @param device
+         */
+        public void addDevice(Device device) {
+            //TODO: assign IP and add info to table.
         }
     }
 }
