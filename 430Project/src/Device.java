@@ -1,3 +1,5 @@
+import java.time.LocalDateTime;
+
 /**
  * @author  Bryce Anderson
  * @version 1.1
@@ -6,31 +8,29 @@
 public class Device {
 
     /**
-     * Port of the device.
-     */
-    String port;
-
-    /**
-    * The name of the device
+     * The name of the device
      */
     String myName;
     /**
      * The IP Address of the device.
      */
     String myIPAddress;
-    /**
-     * The port this device is connected to.
-     */
-    String myPort;
 
-    //DateTime myTimeSpamp;
+    /**
+     * Time stamp for the devices creation
+     */
+    LocalDateTime myStamp;
+
+
 
     /**
      * Constructor for a device.
      * @param DeviceName name of device
      */
-    public Device(String DeviceName) {
+    public Device(String DeviceName, String theIP) {
         myName = DeviceName;
+        myIPAddress = theIP;
+        myStamp= LocalDateTime.now();
     }
 
     /**
@@ -50,12 +50,6 @@ public class Device {
     }
 
     /**
-     * Gets the port
-     * @return myPort
-     */
-    public String getPort() {return myPort;}
-
-    /**
      * Sets the name of this device.
      * @param theName the name of the device.
      */
@@ -72,16 +66,6 @@ public class Device {
     public void setMyIPAddress(String theIP) {
         if(theIP != null) {
             myIPAddress = theIP;
-        }
-    }
-
-    /**
-     * Sets the port for this device
-     * @param thePort the port for the device
-     */
-    public void setPort(String thePort) {
-        if(thePort != null) {
-            myPort = thePort;
         }
     }
 }
