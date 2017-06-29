@@ -18,6 +18,12 @@ public class Device {
      * The IP Address of the device.
      */
     String myIPAddress;
+    /**
+     * The port this device is connected to.
+     */
+    String myPort;
+
+    //DateTime myTimeSpamp;
 
     /**
      * Constructor for a device.
@@ -44,6 +50,12 @@ public class Device {
     }
 
     /**
+     * Gets the port
+     * @return myPort
+     */
+    public String getPort() {return myPort;}
+
+    /**
      * Sets the name of this device.
      * @param theName the name of the device.
      */
@@ -60,6 +72,16 @@ public class Device {
     public void setMyIPAddress(String theIP) {
         if(theIP != null) {
             myIPAddress = theIP;
+        }
+    }
+
+    /**
+     * Sets the port for this device
+     * @param thePort the port for the device
+     */
+    public void setPort(String thePort) {
+        if(thePort != null) {
+            myPort = thePort;
         }
     }
 }
