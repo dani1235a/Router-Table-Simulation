@@ -6,6 +6,11 @@
 public class Device {
 
     /**
+     * Port of the device.
+     */
+    String port;
+
+    /**
     * The name of the device
      */
     String myName;
