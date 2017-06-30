@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -7,6 +8,8 @@ import java.util.Scanner;
  */
 public class Main {
 
+	public static ArrayList<Device> routers = new ArrayList<Device>();
+
 	/**
 	 * Used to call console based UI method.
 	 * @param args
@@ -15,6 +18,9 @@ public class Main {
 		initData();
 		console();
 	}
+
+
+
 
 	/**
 	 * This method handles the console based UI
@@ -63,6 +69,8 @@ public class Main {
 		Router router3 = new Router("Basement Router", "10.10.0.3");
 		Router router4 = new Router("Loft Router", "10.10.0.4");
 
+
+
 		router1.addDevice(device0);
 		router1.addDevice(device1);
 		router2.addDevice(device2);
@@ -72,11 +80,18 @@ public class Main {
 		router4.addDevice(device6);
 		router4.addDevice(device7);
 
-		System.out.println(router1);
-		System.out.println(router2);
-		System.out.println(router3);
-		System.out.println(router4);
+		routers.add(router1);
+		routers.add(router2);
+		routers.add(router3);
+		routers.add(router4);
 
+//    	System.out.println(router1.toString());
+//    	System.out.println(router2);
+//    	System.out.println(router3);
+//    	System.out.println(router4);
+
+		toStrings();
+		System.out.println();
 
 	}
 	/**
@@ -89,9 +104,15 @@ public class Main {
 	/**
 	 * Used to print off router table.
 	 */
-	public static String ToString() {
-		String flag = "Testing";
-		return flag;
+	public static String toStrings() {
+
+		System.out.println("Router Name \t|\t IP Address \t|\t Time \t\t\t\t|\t HOPs");
+		System.out.println("--------------------------------------------------------------------------------------------------------------");
+		for(Device r : routers) {
+			System.out.println(r.getName() + "\t|\t" + r.getIPAddress() + "\t|\t" + r.getTimeStamp() + "\t\t|\t" + 0);
+		}
+
+		return null;
 	}
 
 }

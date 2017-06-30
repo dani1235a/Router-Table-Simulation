@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +22,7 @@ public class Router extends Device {
      */
     public Router(String routerName, String IP) {
         super(routerName, IP);
+        super.myStamp = LocalDateTime.now();
         isOnline = true;
 
     }
@@ -50,6 +52,9 @@ public class Router extends Device {
             devices.add(theDevice);
         }
 
+    }
+    public ArrayList<Device> getDeviceList() {
+        return devices;
     }
 
     @Override
