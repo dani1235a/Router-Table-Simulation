@@ -8,7 +8,7 @@ import java.util.Scanner;
  */
 public class Main {
 
-	public static ArrayList<Device> routers = new ArrayList<Device>();
+	public static ArrayList<Router> routers = new ArrayList<Router>();
 
 	/**
 	 * Used to call console based UI method.
@@ -59,8 +59,8 @@ public class Main {
 		Device device1 = new Device("Office Device2", "192.68.0.2");
 		Device device2 = new Device("Bedroom Device1", "192.68.0.1");
 		Device device3 = new Device("Bedroom Device2", "192.68.0.2");
-		Device device4 = new Device("Basement Device1", "192.68.0.1");
-		Device device5 = new Device("Basement Device2", "192.68.0.2");
+		Device device4 = new Device("Base Device1", "192.68.0.1");
+		Device device5 = new Device("Base Device2", "192.68.0.2");
 		Device device6 = new Device("Loft Device1", "192.68.0.1");
 		Device device7 = new Device("Loft Device2", "192.68.0.2");
 
@@ -106,10 +106,21 @@ public class Main {
 	 */
 	public static String toStrings() {
 
-		System.out.println("Router Name \t|\t IP Address \t|\t Time \t\t\t\t|\t HOPs");
+		int rCount = -1;
+		int dCount = 0;
+		System.out.println("Name \t\t|\t IP Address \t|\t Time \t\t\t\t|\t HOPs");
 		System.out.println("--------------------------------------------------------------------------------------------------------------");
-		for(Device r : routers) {
-			System.out.println(r.getName() + "\t|\t" + r.getIPAddress() + "\t|\t" + r.getTimeStamp() + "\t\t|\t" + 0);
+		for(Router r : routers) {
+			if(rCount != -1) {
+				System.out.println(r.getName() + "\t|\t" + r.getIPAddress() + "\t|\t" + r.getTimeStamp() + "\t\t|\t" + rCount);
+
+			}
+			rCount++;
+			for(Device d : r.getDeviceList()) {
+				System.out.println(d.getName() + "\t|\t" + d.getIPAddress() + "\t|\t" + d.getTimeStamp() + "\t\t|\t" + dCount);
+
+			}
+			dCount++;
 		}
 
 		return null;

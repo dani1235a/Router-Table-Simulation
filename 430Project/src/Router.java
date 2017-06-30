@@ -9,7 +9,7 @@ public class Router extends Device {
     /**
      * Array of devices connected to this router.
      */
-    ArrayList<Device> devices = new ArrayList<Device>();
+    public ArrayList<Device> devices = new ArrayList<Device>();
 
     /**
      * Boolean stating if the router is online.
