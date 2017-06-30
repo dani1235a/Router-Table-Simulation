@@ -12,6 +12,7 @@ public class Main {
 	 * @param args
 	 */
     public static void main(String... args) {
+    	initData();
     	console();
     }
     
@@ -30,9 +31,9 @@ public class Main {
     			System.out.println("3 Exit");
     			path = user.nextInt();
     		} if(path == 1) {
-    			
+    			ToString();
     		} if(path == 2) {
-    			
+    			changeTable();
     		} if(path == 3) {
     			flag = false;
     			path = 0;
@@ -47,7 +48,7 @@ public class Main {
 	 * Initializes the data for the router table
 	 * @author Bryce
 	 */
-	public void initData() {
+	public static void initData() {
 
 		Router router1 = new Router("Office Router", "10.10.0.1");
 		Router router2 = new Router("Bedroom Router", "10.10.0.2");
@@ -62,5 +63,19 @@ public class Main {
 		Device device6 = new Device("Loft Device1", "192.68.0.1");
 		Device device7 = new Device("Loft Device2", "192.68.0.2");
 	}
-    
+	
+	/**
+	 * Used to add or remove from router table.
+	 */
+	public static void changeTable() {
+		
+	}
+	
+	/**
+	 * Used to print off router table.
+	 */
+	public static String ToString() {
+		String flag = "Testing";
+		return flag;
+	}
 }
