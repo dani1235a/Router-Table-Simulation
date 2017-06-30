@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Router class that holds devices.
  */
@@ -6,7 +8,8 @@ public class Router extends Device {
     /**
      * Array of devices connected to this router.
      */
-    Device [] devices;
+    ArrayList<Device> devices = new ArrayList<Device>();
+
     /**
      * Boolean stating if the router is online.
      */
@@ -19,7 +22,6 @@ public class Router extends Device {
     public Router(String routerName, String IP) {
         super(routerName, IP);
         isOnline = true;
-        // super.setMyIPAddress(IP); //This is set in the constructor
 
     }
 
@@ -37,6 +39,31 @@ public class Router extends Device {
      */
     public boolean getIsOnline(){
         return isOnline;
+    }
+
+    /**
+     * Adds a given device to this router.
+     * @param theDevice
+     */
+    public void addDevice(Device theDevice) {
+        if(!devices.contains(theDevice)) {
+            devices.add(theDevice);
+        }
+
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Router Name: ");
+        sb.append(this.myName);
+        sb.append("\n\tDevices attached: ");
+        for(Device a : devices) {
+            sb.append(a.getName());
+            sb.append(' ');
+        }
+
+        return sb.toString();
     }
 
 }

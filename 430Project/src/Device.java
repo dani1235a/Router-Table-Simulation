@@ -17,6 +17,7 @@ public class Device {
      */
     String myIPAddress;
 
+
     LocalDateTime myStamp;
 
 
