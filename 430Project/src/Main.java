@@ -8,7 +8,15 @@ import java.util.Scanner;
  */
 public class Main {
 
-	public static ArrayList<Router> routers = new ArrayList<Router>();
+    private static int routerIPGenerator = 5;
+
+    private static int Sports = 1;
+    private static int Eports = 2;
+
+
+
+
+    public static ArrayList<Router> routers = new ArrayList<Router>();
 
 	/**
 	 * Used to call console based UI method.
@@ -55,19 +63,19 @@ public class Main {
 	 * @author Bryce
 	 */
 	public static void initData() {
-		Device device0 = new Device("Office Device1", "192.168.0.1");
-		Device device1 = new Device("Office Device2", "192.168.0.2");
-		Device device2 = new Device("Bedroom Device1", "192.168.0.1");
-		Device device3 = new Device("Bedroom Device2", "192.168.0.2");
-		Device device4 = new Device("Base Device1", "192.168.0.1");
-		Device device5 = new Device("Base Device2", "192.168.0.2");
-		Device device6 = new Device("Loft Device1", "192.168.0.1");
-		Device device7 = new Device("Loft Device2", "192.168.0.2");
+		Device device0 = new Device("Office Device1", "192.168.0.1", new Port('E',1));
+        Device device1 = new Device("Office Device2", "192.168.0.2", new Port('E',2));
+        Device device2 = new Device("Bedroom Device1", "192.168.0.1", new Port('S',1));
+        Device device3 = new Device("Bedroom Device2", "192.168.0.2", new Port('S',1));
+        Device device4 = new Device("Base Device1", "192.168.0.1", new Port('S',2));
+        Device device5 = new Device("Base Device2", "192.168.0.2", new Port('S',2));
+        Device device6 = new Device("Loft Device1", "192.168.0.1", new Port('S',0));
+        Device device7 = new Device("Loft Device2", "192.168.0.2", new Port('S',0));
 
-		Router router1 = new Router("Office Router", "10.10.0.1");
-		Router router2 = new Router("Bedroom Router", "10.10.0.2");
-		Router router3 = new Router("Basement Router", "10.10.0.3");
-		Router router4 = new Router("Loft Router 1", "10.10.0.4");
+		Router router1 = new Router("Main Router", "10.10.0.1", new Port());
+		Router router2 = new Router("Bedroom Router", "10.10.0.2", new Port('S',1));
+		Router router3 = new Router("Basement Router", "10.10.0.3", new Port('S',2));
+		Router router4 = new Router("Loft Router 1", "10.10.0.4", new Port('S',0));
 
 
 
@@ -118,9 +126,8 @@ public class Main {
             int routerSelected = -1;
             while (true) {
                 System.out.println("Select a router you want to add the device to:");
-                System.out.println("0) " + "This router (main)");
                 for (int i = 0; i < routers.size(); i++) {
-                    System.out.println(i + 1 + ") " + routers.get(i).getName());
+                    System.out.println(i + ") " + routers.get(i).getName());
                 }
                 routerSelected = scanner.nextInt();
                 if (routerSelected > routers.size() + 1) {
@@ -130,21 +137,32 @@ public class Main {
                 }
             }
 
-            System.out.println("THe devices attached to this router are:");
-            for (Device d : routers.get(routerSelected - 1).devices) {
-                System.out.println(d.getName() + "\t" + d.getIPAddress());
-            }
-            String ip = "192.168.0." + (routers.get(routerSelected - 1).devices.size() + 1);
-            System.out.println("The assigned device IP is: " + ip);
+            String ip = routers.get(routerSelected).generateIPForDevice();
 
             System.out.println("Enter Device Name: ");
             scanner.nextLine();
             String deviceName = scanner.nextLine();
 
-            System.out.println(deviceName + "Is the device name");
+            Port port;
+            if (routerSelected == 0) {
+                port = new Port('E', Eports);
+            } else {
+                port = routers.get(routerSelected).getPort();
+            }
 
+            Device newDevice = new Device(deviceName, ip, port);
+            routers.get(routerSelected).addDevice(newDevice);
 
         } else if (selected == 2) {
+            System.out.println("Enter Router Name: ");
+            scanner.nextLine();
+            String routerName = scanner.nextLine();
+
+            String routerIP = "10.10.0." + routerIPGenerator;
+            routerIPGenerator++;
+
+            Router newRouter = new Router(routerName, routerIP);
+            routers.add(newRouter);
 
         } else {
             // do nothing
@@ -161,16 +179,16 @@ public class Main {
 		int rCount = -1;
 		int dCount = 0;
 
-		System.out.println("Name \t\t|\t IP Address \t|\t Time \t\t\t\t|\t HOPs");
+		System.out.println("Name \t\t|\t IP Address \t|\t Time \t\t\t\t|\t HOPs \t | \t Port");
 		System.out.println("--------------------------------------------------------------------------------------------------------------");
 		for(Router r : routers) {
 			if(rCount != -1) {
-				System.out.printf(r.getName() + "\t|\t" + r.getIPAddress() + "\t|\t" + r.getTimeStamp() + "\t\t|\t" + rCount + "\n");
+				System.out.printf(r.getName() + "\t|\t" + r.getIPAddress() + "\t|\t" + r.getTimeStamp() + "\t\t|\t" + rCount + "\t" + r.getPort().toString() + "\n" );
 
 			}
 			rCount++;
 			for(Device d : r.getDeviceList()) {
-				System.out.printf(d.getName() + "\t|\t" + d.getIPAddress() + "\t|\t" + d.getTimeStamp() + "\t\t|\t" + dCount + "\n");
+				System.out.printf(d.getName() + "\t|\t" + d.getIPAddress() + "\t|\t" + d.getTimeStamp() + "\t\t|\t" + dCount + "\t" + d.getPort().toString() + "\n");
 
 			}
 			dCount++;

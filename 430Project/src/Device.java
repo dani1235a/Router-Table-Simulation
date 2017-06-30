@@ -9,6 +9,11 @@ import java.time.LocalDateTime;
 public class Device {
 
     /**
+     * Port of this device.
+     */
+    Port port;
+
+    /**
      * The name of the device
      */
     String myName;
@@ -26,7 +31,7 @@ public class Device {
      * Constructor for a device.
      * @param DeviceName name of device
      */
-    public Device(String DeviceName, String theIP) {
+    public Device(String DeviceName, String theIP,  Port port) {
         myName = DeviceName;
         myIPAddress = theIP;
         myStamp= LocalDateTime.now();
@@ -74,5 +79,21 @@ public class Device {
      */
     public LocalDateTime getTimeStamp() {
         return myStamp;
+    }
+
+    /**
+     * Returns the port of device.
+     * @return the port of device.
+     */
+    public Port getPort() {
+        return port;
+    }
+
+    /**
+     * Sets port of device.
+     * @param p Sets port of device.
+     */
+    public void setPort(Port p) {
+        port = p;
     }
 }

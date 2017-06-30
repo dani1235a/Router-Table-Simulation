@@ -7,6 +7,12 @@ import java.util.ArrayList;
 public class Router extends Device {
 
     /**
+     * Used to Generate an IP address for a device.
+     *
+     */
+    private int deviceIP = 0;
+
+    /**
      * Array of devices connected to this router.
      */
     public ArrayList<Device> devices = new ArrayList<Device>();
@@ -20,8 +26,8 @@ public class Router extends Device {
      * Constructor that initiallizes the router.
      * @param routerName - name associated with router.
      */
-    public Router(String routerName, String IP) {
-        super(routerName, IP);
+    public Router(String routerName, String IP, Port port) {
+        super(routerName, IP, port);
         super.myStamp = LocalDateTime.now();
         isOnline = true;
 
@@ -51,6 +57,7 @@ public class Router extends Device {
         if(!devices.contains(theDevice)) {
             devices.add(theDevice);
         }
+        deviceIP++;
 
     }
     public ArrayList<Device> getDeviceList() {
@@ -69,6 +76,14 @@ public class Router extends Device {
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Method used to Generate an IP for a newly added device.
+     * @return
+     */
+    public String generateIPForDevice() {
+        return "192.168.0." + (deviceIP + 1);
     }
 
 }
