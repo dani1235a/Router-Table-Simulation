@@ -12,7 +12,7 @@ public class Main {
 
     private static int Sports = 3;
     private static int Eports = 2;
-
+    private static int devices = 8;
 
 
 
@@ -65,12 +65,12 @@ public class Main {
 	public static void initData() {
 		Device device0 = new Device("Office Device1", "192.168.0.1", new Port('E',0));
         Device device1 = new Device("Office Device2", "192.168.0.2", new Port('E',1));
-        Device device2 = new Device("Bedroom Device1", "192.168.0.1", new Port('S',1));
-        Device device3 = new Device("Bedroom Device2", "192.168.0.2", new Port('S',1));
-        Device device4 = new Device("Base Device1", "192.168.0.1", new Port('S',2));
-        Device device5 = new Device("Base Device2", "192.168.0.2", new Port('S',2));
-        Device device6 = new Device("Loft Device1", "192.168.0.1", new Port('S',0));
-        Device device7 = new Device("Loft Device2", "192.168.0.2", new Port('S',0));
+        Device device2 = new Device("Bedroom Device1", "192.168.0.3", new Port('S',1));
+        Device device3 = new Device("Bedroom Device2", "192.168.0.4", new Port('S',1));
+        Device device4 = new Device("Base Device1", "192.168.0.5", new Port('S',2));
+        Device device5 = new Device("Base Device2", "192.168.0.6", new Port('S',2));
+        Device device6 = new Device("Loft Device1", "192.168.0.7", new Port('S',0));
+        Device device7 = new Device("Loft Device2", "192.168.0.8", new Port('S',0));
 
 		Router router1 = new Router("Main Router", "10.10.0.1", new Port());
 		Router router2 = new Router("Bedroom Router", "10.10.0.2", new Port('S',1));
@@ -137,7 +137,8 @@ public class Main {
                 }
             }
 
-            String ip = routers.get(routerSelected).generateIPForDevice();
+            String ip = "192.168.0." + (devices + 1);
+            devices++;
 
             System.out.println("Enter Device Name: ");
             scanner.nextLine();
@@ -176,27 +177,74 @@ public class Main {
 	/**
 	 * Used to print off router table.
 	 */
-	public static String toStrings() {
+	public static void toStrings() {
 
-		int rCount = -1;
-		int dCount = 0;
-
-		System.out.println("Name \t\t|\t IP Address \t|\t Time \t\t\t\t|\t HOPs \t | \t Port");
-		System.out.println("--------------------------------------------------------------------------------------------------------------");
-		for(Router r : routers) {
-			if(rCount != -1) {
-				System.out.printf(r.getName() + "\t|\t" + r.getIPAddress() + "\t|\t" + r.getTimeStamp() + "\t\t|\t" + rCount + "\t" + r.getPort().toString() + "\n" );
-
-			}
-			rCount++;
-			for(Device d : r.getDeviceList()) {
-				System.out.printf(d.getName() + "\t|\t" + d.getIPAddress() + "\t|\t" + d.getTimeStamp() + "\t\t|\t" + dCount + "\t" + d.getPort().toString() + "\n");
-
-			}
-			dCount++;
+		StringBuilder sb = new StringBuilder(1024);
+		sb.append(" Name");
+		insertSpaces(sb, 29);
+		sb.append("| IP Address");
+		insertSpaces(sb, 6);
+		sb.append("| Time");
+		insertSpaces(sb, 20);
+		sb.append("| Hops | Port\n");
+		
+		for (int i = 0; i < 92; i++) {
+		    sb.append('-');
 		}
+		sb.append('\n');
+		
+		for (Router router : routers) {
+		    if (!router.getIPAddress().equals("10.10.0.1")) {
+		        sb.append(' ');
+		        sb.append(String.format("%1$-32s", router.getName()));
+		        sb.append(" | ");
+		        sb.append(formatIp(router.getIPAddress()));
+		        sb.append(" | ");
+		        sb.append(router.getTimeStamp());
+		        sb.append(" | 0    | ");
+		        sb.append(router.getPort().toString());
+		        sb.append('\n');
+		    }
+		    for (Device device : router.getDeviceList()) {
+		        sb.append(' ');
+                sb.append(String.format("%1$-32s", device.getName()));
+                sb.append(" | ");
+                sb.append(formatIp(device.getIPAddress()));
+                sb.append(" | ");
+                sb.append(device.getTimeStamp());
+                sb.append(" | ");
+                if (router.getIPAddress().equals("10.10.0.1")) {
+                    sb.append(0);
+                } else {
+                    sb.append(1);
+                }
+                sb.append("    | ");
+                sb.append(device.getPort().toString());
+                sb.append('\n');
+		    }
+		}
+		
+		System.out.println(sb.toString());
+	}
+	
+	private static String formatIp(String theIpAddress) {
 
-		return null;
+        String[] pairs = theIpAddress.split("\\.");
+	    StringBuilder sb = new StringBuilder(15);
+	    for (int i = 0; i < 3; i++) {
+	        sb.append(String.format("%1$3s", pairs[i]));
+	        sb.append('.');
+	    }
+	    sb.append(String.format("%1$3s", pairs[3]));
+	    return sb.toString();
+    }
+
+
+    private static void insertSpaces(StringBuilder theSb, int theAmount) {
+	    
+	    for (int i = 0; i < theAmount; i++) {
+	        theSb.append(' ');
+	    }
 	}
 
 }
