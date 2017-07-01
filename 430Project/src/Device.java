@@ -32,6 +32,7 @@ public class Device {
      * @param DeviceName name of device
      */
     public Device(String DeviceName, String theIP,  Port port) {
+        this.port = port;
         myName = DeviceName;
         myIPAddress = theIP;
         myStamp= LocalDateTime.now();

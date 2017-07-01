@@ -10,7 +10,7 @@ public class Main {
 
     private static int routerIPGenerator = 5;
 
-    private static int Sports = 1;
+    private static int Sports = 3;
     private static int Eports = 2;
 
 
@@ -63,8 +63,8 @@ public class Main {
 	 * @author Bryce
 	 */
 	public static void initData() {
-		Device device0 = new Device("Office Device1", "192.168.0.1", new Port('E',1));
-        Device device1 = new Device("Office Device2", "192.168.0.2", new Port('E',2));
+		Device device0 = new Device("Office Device1", "192.168.0.1", new Port('E',0));
+        Device device1 = new Device("Office Device2", "192.168.0.2", new Port('E',1));
         Device device2 = new Device("Bedroom Device1", "192.168.0.1", new Port('S',1));
         Device device3 = new Device("Bedroom Device2", "192.168.0.2", new Port('S',1));
         Device device4 = new Device("Base Device1", "192.168.0.1", new Port('S',2));
@@ -130,7 +130,7 @@ public class Main {
                     System.out.println(i + ") " + routers.get(i).getName());
                 }
                 routerSelected = scanner.nextInt();
-                if (routerSelected > routers.size() + 1) {
+                if (routerSelected >= routers.size() + 1) {
                     System.out.println("Please make a valid choice.");
                 } else {
                     break;
@@ -146,6 +146,7 @@ public class Main {
             Port port;
             if (routerSelected == 0) {
                 port = new Port('E', Eports);
+                Eports++;
             } else {
                 port = routers.get(routerSelected).getPort();
             }
@@ -161,7 +162,8 @@ public class Main {
             String routerIP = "10.10.0." + routerIPGenerator;
             routerIPGenerator++;
 
-            Router newRouter = new Router(routerName, routerIP);
+            Router newRouter = new Router(routerName, routerIP, new Port('S', Sports));
+            Sports++;
             routers.add(newRouter);
 
         } else {
