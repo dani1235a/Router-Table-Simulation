@@ -60,6 +60,12 @@ public class Router extends Device {
         deviceIP++;
 
     }
+    
+    public void removeDevice(Device theDevice) {
+        
+        devices.remove(theDevice);
+    }
+    
     public ArrayList<Device> getDeviceList() {
         return devices;
     }

@@ -168,7 +168,55 @@ public class Main {
             routers.add(newRouter);
 
         } else {
-            // do nothing
+            //build devices table for input parsing
+            //also print options
+            System.out.println("Enter device or router to remove:");
+            ArrayList<ArrayList<Device>> devicesByRouter = new ArrayList<ArrayList<Device>>();
+            int optionNumber = 1;
+            for (Router router : routers) {
+                ArrayList<Device> devices = new ArrayList<Device>();
+                devices.add(router);
+                if (!router.getIPAddress().equals("10.10.0.1")) {
+                    System.out.println(optionNumber + ") " + router.getName());
+                    optionNumber++;
+                }
+                for (Device device : router.getDeviceList()) {
+                    devices.add(device);
+                    System.out.println(optionNumber + ") " + device.getName());
+                    optionNumber++;
+                }
+                devicesByRouter.add(devices);
+            }
+            
+            //get option input
+            int input;
+            while (true) {
+                input = scanner.nextInt();
+                if (input < 1 || input > optionNumber - 1) {
+                    System.out.print("Enter a valid number: ");
+                } else {
+                    break;
+                }
+            }
+            
+            //find the device to remove
+            int indexOffset = 0;
+            for (ArrayList<Device> devices : devicesByRouter) {
+                //checking if we have the device list for the correct device
+                if (input < indexOffset + devices.size()) {
+                    int deviceIndex = input - indexOffset;
+                    //if this is 0, the device is a router
+                    if (deviceIndex == 0) {
+                        routers.remove(devices.get(deviceIndex));
+                    } else {
+                        //get the router and remove the device from its device list
+                        ((Router) devices.get(0)).removeDevice(devices.get(deviceIndex));
+                    }
+                    break;
+                } else {
+                    indexOffset += devices.size();
+                }
+            }
         }
 
     }
