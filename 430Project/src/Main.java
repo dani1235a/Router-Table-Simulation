@@ -158,7 +158,25 @@ public class Main {
             routers.get(routerSelected).addDevice(newDevice);
 
         } else if (selected == 2) {
-            System.out.println("Enter Router Name: ");
+            System.out.println("Which other router is this router connected to?");
+            int count = 0;
+            String linkedRouterName = "";
+            for(Device d : routers) {
+                if (d instanceof Router) {
+                    System.out.println(count + ")" + d.getName());
+                    count++;
+                    for (int i = 0; i < ((Router) d).devices.size(); i++) {
+                        if (((Router) d).devices.get(i) instanceof Router) {
+                            System.out.println(count + ")" + d.getName());
+                            count++;
+                        }
+                    }
+                }
+            }
+
+
+
+            System.out.println("Enter New Router Name: ");
             scanner.nextLine();
             String routerName = scanner.nextLine();
 
