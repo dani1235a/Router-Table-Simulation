@@ -61,15 +61,26 @@ public class Router extends Device {
 
     }
     
+    /**
+     * Removes a given device to this router.
+     * @param theDevice
+     */
     public void removeDevice(Device theDevice) {
         
         devices.remove(theDevice);
     }
     
+    /**
+     * Gives a list of all Device in this router.
+     */
     public ArrayList<Device> getDeviceList() {
         return devices;
     }
 
+    
+    /**
+     * Gives a list of all devices connected to the router.
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

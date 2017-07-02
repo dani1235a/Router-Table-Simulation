@@ -23,6 +23,9 @@ public class Device {
     String myIPAddress;
 
 
+    /**
+     * The time and date that the device was connected.
+     */
     LocalDateTime myStamp;
 
 

@@ -15,7 +15,9 @@ public class Main {
     private static int devices = 8;
 
 
-
+    /**
+     * A list of all routers in the system.
+     */
     public static ArrayList<Router> routers = new ArrayList<Router>();
 
 	/**
@@ -275,6 +277,10 @@ public class Main {
 		System.out.println(sb.toString());
 	}
 	
+	/**
+	 * This method is used to format IP addresses.
+	 * @param theIpAddress
+	 */
 	private static String formatIp(String theIpAddress) {
 
         String[] pairs = theIpAddress.split("\\.");
@@ -287,7 +293,12 @@ public class Main {
 	    return sb.toString();
     }
 
-
+	/**
+	 * This method is used to insert spaces to the string builder TheSb. This
+	 * happens the number of times equal to the value theAmount.
+	 * @param theSb
+	 * @param theAmount
+	 */
     private static void insertSpaces(StringBuilder theSb, int theAmount) {
 	    
 	    for (int i = 0; i < theAmount; i++) {
