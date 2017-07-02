@@ -57,7 +57,9 @@ public class Router extends Device {
         if(!devices.contains(theDevice)) {
             devices.add(theDevice);
         }
-        deviceIP++;
+        if (!(theDevice instanceof Router)) {
+            deviceIP++;
+        }
 
     }
     

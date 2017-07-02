@@ -9,9 +9,8 @@ import java.util.Scanner;
 public class Main {
 
     private static int routerIPGenerator = 5;
-
-    private static int Sports = 3;
     private static int Eports = 2;
+    private static int Sports = 3;
     private static int devices = 8;
 
 
@@ -89,6 +88,10 @@ public class Main {
 		router3.addDevice(device5);
 		router4.addDevice(device6);
 		router4.addDevice(device7);
+		
+		router1.addDevice(router2);
+		router1.addDevice(router3);
+		router1.addDevice(router4);
 
 		routers.add(router1);
 		routers.add(router2);
@@ -158,23 +161,20 @@ public class Main {
             routers.get(routerSelected).addDevice(newDevice);
 
         } else if (selected == 2) {
-            System.out.println("Which other router is this router connected to?");
-            int count = 0;
-            String linkedRouterName = "";
-            for(Device d : routers) {
-                if (d instanceof Router) {
-                    System.out.println(count + ")" + d.getName());
-                    count++;
-                    for (int i = 0; i < ((Router) d).devices.size(); i++) {
-                        if (((Router) d).devices.get(i) instanceof Router) {
-                            System.out.println(count + ")" + d.getName());
-                            count++;
-                        }
-                    }
-                }
+            System.out.println("To which existing router is this new router connected?");
+            for (int i = 1; i <= routers.size(); i++) {
+                System.out.println(i + ") " + routers.get(i - 1).getName());
             }
 
-
+            int input;
+            while (true) {
+                input = scanner.nextInt();
+                if (input < 1 || input > routers.size()) {
+                    System.out.print("Enter a valid number: ");
+                } else {
+                    break;
+                }
+            }
 
             System.out.println("Enter New Router Name: ");
             scanner.nextLine();
@@ -183,10 +183,17 @@ public class Main {
             String routerIP = "10.10.0." + routerIPGenerator;
             routerIPGenerator++;
 
-            Router newRouter = new Router(routerName, routerIP, new Port('S', Sports));
-            Sports++;
+            Router baseRouter = routers.get(input - 1);
+            Port port;
+            if (baseRouter.getIPAddress().equals("10.10.0.1")) {
+                port = new Port('S', Sports);
+                Sports++;
+            } else {
+                port = baseRouter.getPort();
+            }
+            Router newRouter = new Router(routerName, routerIP, port);
+            baseRouter.addDevice(newRouter);
             routers.add(newRouter);
-
         } else {
             //build devices table for input parsing
             //also print options
@@ -201,9 +208,11 @@ public class Main {
                     optionNumber++;
                 }
                 for (Device device : router.getDeviceList()) {
-                    devices.add(device);
-                    System.out.println(optionNumber + ") " + device.getName());
-                    optionNumber++;
+                    if (!(device instanceof Router)) {
+                        devices.add(device);
+                        System.out.println(optionNumber + ") " + device.getName());
+                        optionNumber++;
+                    }
                 }
                 devicesByRouter.add(devices);
             }
@@ -228,6 +237,12 @@ public class Main {
                     //if this is 0, the device is a router
                     if (deviceIndex == 0) {
                         routers.remove(devices.get(deviceIndex));
+                        //remove from routers device lists
+                        for (Router router : routers) {
+                            if (router.getDeviceList().contains(devices.get(deviceIndex))) {
+                                router.removeDevice(devices.get(deviceIndex));
+                            }
+                        }
                     } else {
                         //get the router and remove the device from its device list
                         ((Router) devices.get(0)).removeDevice(devices.get(deviceIndex));
@@ -261,38 +276,54 @@ public class Main {
 		}
 		sb.append('\n');
 		
+		Router mainRouter = null;
 		for (Router router : routers) {
-		    if (!router.getIPAddress().equals("10.10.0.1")) {
-		        sb.append(' ');
-		        sb.append(String.format("%1$-32s", router.getName()));
-		        sb.append(" | ");
-		        sb.append(formatIp(router.getIPAddress()));
-		        sb.append(" | ");
-		        sb.append(router.getTimeStamp());
-		        sb.append(" | 0    | ");
-		        sb.append(router.getPort().toString());
-		        sb.append('\n');
-		    }
-		    for (Device device : router.getDeviceList()) {
-		        sb.append(' ');
-                sb.append(String.format("%1$-32s", device.getName()));
-                sb.append(" | ");
-                sb.append(formatIp(device.getIPAddress()));
-                sb.append(" | ");
-                sb.append(device.getTimeStamp());
-                sb.append(" | ");
-                if (router.getIPAddress().equals("10.10.0.1")) {
-                    sb.append(0);
-                } else {
-                    sb.append(1);
-                }
-                sb.append("    | ");
-                sb.append(device.getPort().toString());
-                sb.append('\n');
+		    if (router.getIPAddress().equals("10.10.0.1")) {
+		        mainRouter = router;
 		    }
 		}
+		parseRouter(sb, mainRouter, -1);
 		
 		System.out.println(sb.toString());
+	}
+	
+	/**
+	 * Iterates through and parses a Router for printing the router table
+	 * @param theSb the StringBuilder containing the in-progress router table
+	 * @param theRouter the router for which to parse
+	 * @param theHops the amount of hops away this router is from the main router
+	 */
+	private static void parseRouter(StringBuilder theSb, Router theRouter, int theHops) {
+	    if (!theRouter.getIPAddress().equals("10.10.0.1")) {
+            theSb.append(' ');
+            theSb.append(String.format("%1$-32s", theRouter.getName()));
+            theSb.append(" | ");
+            theSb.append(formatIp(theRouter.getIPAddress()));
+            theSb.append(" | ");
+            theSb.append(theRouter.getTimeStamp());
+            theSb.append(" | ");
+            theSb.append(theHops);
+            theSb.append("    | ");
+            theSb.append(theRouter.getPort().toString());
+            theSb.append('\n');
+        }
+        for (Device device : theRouter.getDeviceList()) {
+            if (device instanceof Router) {
+                parseRouter(theSb, (Router) device, theHops + 1);
+            } else {
+                theSb.append(' ');
+                theSb.append(String.format("%1$-32s", device.getName()));
+                theSb.append(" | ");
+                theSb.append(formatIp(device.getIPAddress()));
+                theSb.append(" | ");
+                theSb.append(device.getTimeStamp());
+                theSb.append(" | ");
+                theSb.append(theHops + 1);
+                theSb.append("    | ");
+                theSb.append(device.getPort().toString());
+                theSb.append('\n');
+            }
+        }
 	}
 	
 	/**
