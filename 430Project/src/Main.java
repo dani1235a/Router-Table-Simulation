@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * @author  Colin Casey
+ * @author  Colin Casey, Daniel Ivanov
  * @version 1.0
  * This Class runs the console based UI.
  */
